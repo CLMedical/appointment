@@ -99,54 +99,42 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            liff.init({ liffId: "1654186914-Rxlw2Nrz" }, () => {
-                if (liff.isLoggedIn()) {
-                    liff.getProfile().then(profile => {
-                        document.getElementById("first_name").value = profile.displayName;
-                        // If you have a way to get last name or other details, you can set them here
-                        // document.getElementById("last_name").value = profile.userId; // Example
-                    }).catch(err => console.error(err));
-                } else {
-                    liff.login();
-                }
-            }, err => console.error(err));
-        });
-
         function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
+  event.preventDefault();
+  const form = event.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
 
-            fetch('https://script.google.com/macros/s/AKfycbz5OnfbjaC3G0PtOv0qf2az-bdd6ZF__lvi7Z0PaNpq2Tdh8RtwvZqX5pXTvRgxBQJ6/exec', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(result => {
-                form.reset();
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'ทำการจองคิวเรียบร้อยแล้วค่ะ',
-                    showConfirmButton: false,
-                    timer: 3600
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'เกิดข้อผิดพลาดในการจองคิวค่ะ',
-                    showConfirmButton: true
-                });
-            });
-        }
+  // ส่งข้อมูลไปยัง Google Apps Script โดยตรง
+  fetch('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(result => {
+    form.reset();
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'ทำการจองคิวเรียบร้อยแล้วค่ะ',
+      showConfirmButton: false,
+      timer: 3600
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'เกิดข้อผิดพลาดในการจองคิวค่ะ',
+      showConfirmButton: true
+    });
+  });
+}
+
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
